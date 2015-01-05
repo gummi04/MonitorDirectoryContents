@@ -55,7 +55,7 @@ namespace MonitorDirectoryContents
         {
             SHA256 hashFunction = SHA256Managed.Create();
             byte[] hashValue;
-            FileStream fileStream = file.Open(FileMode.Open, FileAccess.Read);
+            FileStream fileStream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
             fileStream.Position = 0;
             hashValue = hashFunction.ComputeHash(fileStream);
             fileStream.Close();
