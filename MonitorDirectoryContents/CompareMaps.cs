@@ -88,24 +88,23 @@ namespace MonitorDirectoryContents
                     return false;                
                 }
 
-                if (a.Length != b.Length)
-                { 
-                    b.Modified = String.Format("Stærð hefur breyst, er {0} en var {1}.", b.Length, a.Length); 
-                    return false;                
-                }
-
                 if (a.LastWriteTime != b.LastWriteTime)
                 { 
                      b.Modified = String.Format("Búið að vista skrána aftur, dagsetning er {0} en var {1}.", b.LastWriteTime, a.LastWriteTime); 
                     return false;               
                 }
             }
+            if (a.Length != b.Length)
+            {
+                b.Modified = String.Format("Stærð hefur breyst, er {0} en var {1}.", b.Length, a.Length);
+                return false;
+            }
             return true;
         }
 
         public int GetHashCode(FileInfoWrapper fileEntry)
         {
-            return fileEntry.Hash.GetHashCode();
+            return fileEntry.Name.GetHashCode();// fileEntry.Hash.GetHashCode() ^ fileEntry.Name.GetHashCode() ^ fileEntry.FullName.GetHashCode() ^ fileEntry.Length.GetHashCode();
         }
     }
 
@@ -113,12 +112,12 @@ namespace MonitorDirectoryContents
     {
         public bool Equals(FileInfoWrapper a, FileInfoWrapper b)
         {
-            return a.Hash == b.Hash;
+            return a.Name == b.Name;
         }
 
         public int GetHashCode(FileInfoWrapper fileEntry)
         {
-            return fileEntry.Hash == null ? 0 : fileEntry.Hash.GetHashCode();
+            return fileEntry.Name == null ? 0 : fileEntry.Name.GetHashCode();
             //return fileEntry.Name == null ? 0 : fileEntry.Name.GetHashCode();
         }
     }
