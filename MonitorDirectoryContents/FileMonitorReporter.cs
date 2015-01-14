@@ -39,9 +39,11 @@ namespace MonitorDirectoryContents
 
         public void ReportToConsole(FileInfoWrapper[] files)
         {
-            if (files.Count() > 0)
+            FileInfoWrapper[] sorted = files.OrderBy(c => c.Modified).ToArray();
+
+            if (sorted.Count() > 0)
             {
-                foreach (var entry in files)
+                foreach (var entry in sorted)
                     Console.WriteLine("reporting: Skrá: {0} - breyting: {1}", entry.Name, entry.Modified);
             }
             else
@@ -52,11 +54,12 @@ namespace MonitorDirectoryContents
 
         public void ReportToHtml(FileInfoWrapper[] files)
         {
+            FileInfoWrapper[] sorted = files.OrderBy(c => c.Modified).ToArray();
             StringBuilder sb = new StringBuilder();
             sb.Append(OpenHTMLReport());
-            if (files.Count() > 0)
+            if (sorted.Count() > 0)
             {
-                foreach (var entry in files)
+                foreach (var entry in sorted)
                     sb.Append(AddRowHTLMReport(entry));
             }
             else
@@ -65,8 +68,8 @@ namespace MonitorDirectoryContents
             }
             sb.Append(CloseHTMLReport());
 
-            System.IO.File.WriteAllText(@"C:\map.html", sb.ToString());
-            System.Diagnostics.Process.Start(@"c:\map.html");
+            System.IO.File.WriteAllText(@"C:\MappaTilraun1\map.html", sb.ToString());
+            System.Diagnostics.Process.Start(@"c:\MappaTilraun1\map.html");
         }
 
         #region HTML helper stuff
